@@ -1,0 +1,90 @@
+# Dependencies
+node_modules/
+vendor/
+.pnp/
+.pnp.js
+
+# Build outputs
+dist/
+build/
+out/
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Environment and config
+.env
+.env.local
+.env.*.local
+config.json
+*.config.js
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs and databases
+*.log
+logs/
+*.sqlite
+*.db
+*.sql
+
+# Cache and temp files
+.cache/
+.temp/
+tmp/
+temp/
+.npm
+.yarn
+
+# Large media and binary files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.mp4
+*.mov
+*.wmv
+*.avi
+*.psd
+*.ai
+
+# Testing and coverage
+coverage/
+.nyc_output/
+jest-coverage/
+test-results/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Package manager files
+package-lock.json
+yarn.lock
+composer.lock
+
+# Large data files
+*.csv
+*.dat
+*.bak
+*.old
+*.backup
+
+# Documentation
+docs/_site/
+docs/.sass-cache/
+
+# Deployment
+.vercel
+.netlify

@@ -1,0 +1,36 @@
+name: orbitalnotes
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.11
+  - pip
+  - notebook
+  - pandas
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - pytest
+  - black
+  - flake8
+  - ipykernel
+  - jupyter
+  - jupyterlab
+  - nltk
+  - requests
+  - beautifulsoup4
+  - sqlalchemy
+  - tqdm
+  - openpyxl
+  - plotly
+  - nodejs
+  - pip:
+    - python-dotenv
+    - streamlit
+    - fastapi
+    - uvicorn
+    - pytest-cov
+    - pre-commit
+    - httpx
+    - webview
+    - websockets
