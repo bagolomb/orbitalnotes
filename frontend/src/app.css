@@ -1,2 +1,84 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/typography';
+@plugin "daisyui";
+
+.cm-scroller { /* scrollable area */
+  /* e.g. overflow, padding, background */
+}
+.cm-content { /* container for all the text lines */
+}
+.cm-line { /* each line wrapper */
+}
+.cm-lineNumbers { /* line number cells */
+}
+.cm-foldGutter  { @apply bg-base-200/* fold markers */
+}
+.cm-lintGutter { /* lint markers */
+}
+.cm-gutters {
+  @apply flex items-center justify-center bg-base-200;
+}
+.cm-gutterElement {
+  @apply flex items-center justify-center bg-base-300;
+}
+.cm-selectionBackground { /* the selected‐text highlight */ }
+.cm-cursor              { /* the blinking caret */ }
+.cm-activeLine { /* background of the line the cursor sits on */ }
+.cm-activeLineGutter { /* gutter cell for the active line */ }
+.cm-placeholder    { /* when doc is empty */ }
+.cm-foldPlaceholder { /* collapsed‐fold marker */ }
+.cm-widget         { /* arbitrary widgets you can insert */ }
+.cm-dragging       { /* during drag–drop */ }
+.cm-matchingBracket    { /* matched bracket highlight */ }
+.cm-nonmatchingBracket { /* mismatch highlight */ }
+
+.cm-searchMatch            { /* all find() matches */ }
+.cm-searchMatch-selected   { /* current match */ }
+.cm-panels           { /* container for top/bottom panels */ }
+.cm-panel           { /* each panel */ }
+.cm-panels-top      { /* top panels */ }
+.cm-panels-bottom   { /* bottom panels */ }
+
+.cm-tooltip         { /* generic tooltip wrapper */ }
+.cm-tooltip-autocomplete { /* completion popup */ }
+.cm-tooltip .cm-completionIcon,
+.cm-tooltip .cm-completionLabel { /* items in it */ }
+.cm-tooltip-active  { /* highlighted item */ }
+.cm-lintRange        { /* entire range underline */ }
+.cm-lintRange-error  { /* error */ }
+.cm-lintRange-warning{ /* warning */ }
+.cm-lintRange-info   { /* info */ }
+
+
+
+  
+.prose h1 { @apply block text-4xl font-extrabold leading-tight mt-6 mb-6; }
+.prose h2 { @apply block text-3xl font-bold      leading-snug  pt-5 pb-5; }
+.prose h3 { @apply block text-2xl font-semibold  leading-snug  pt-4 pb-4; }
+.prose h4 { @apply block text-xl  font-semibold  leading-snug  pt-3 pb-3; }
+.prose h5 { @apply block text-lg  font-semibold  leading-snug  pt-2 pb-2; }
+.prose h6 { @apply block text-base font-semibold  leading-snug  pt-1 pb-1; }
+.prose strong        { @apply font-semibold; }
+.prose em            { @apply italic; }
+.prose del           { @apply line-through; }
+.prose a             { @apply text-blue-600 underline; }
+.prose ul            { @apply list-disc pl-6 space-y-2; }
+.prose ol            { @apply list-decimal pl-6 space-y-2; }
+.prose blockquote    { @apply border-l-4 border-gray-300 pl-4 italic my-4; }
+.prose code          { @apply bg-gray-100 px-1 py-0.5 rounded-sm font-mono text-sm; }
+.prose pre           { @apply bg-gray-100 p-4 rounded overflow-x-auto font-mono text-sm; }
+
+
+
+.cm-heading1 { @apply block text-4xl font-extrabold leading-tight pt-6 pb-6; }
+.cm-heading2 { @apply block text-3xl font-bold      leading-snug  pt-5 pb-5; }
+.cm-heading3 { @apply block text-2xl font-semibold  leading-snug  pt-4 pb-4; }
+.cm-heading4 { @apply block text-xl  font-semibold  leading-snug  pt-3 pb-3; }
+.cm-heading5 { @apply block text-lg  font-semibold  leading-snug  pt-2 pb-2; }
+.cm-heading6 { @apply block text-base font-semibold  leading-snug  pt-1 pb-1; }
+.cm-strong        { @apply font-semibold; }
+.cm-emphasis      { @apply italic; }
+.cm-strikethrough { @apply line-through; }
+.cm-link,.cm-url  { @apply text-blue-600 underline; }
+.cm-list          { @apply list-disc pl-6 space-y-2; }
+.cm-quote         { @apply border-l-4 border-gray-300 pl-4 italic my-4; }
+.cm-literal       { @apply bg-gray-100 px-1 py-0.5 rounded-sm font-mono text-sm; }

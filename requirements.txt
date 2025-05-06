@@ -1,0 +1,9 @@
+requests
+fastapi
+uvicorn
+pywebview
+chromadb
+langchain-text-splitters
+llama-cpp-python
+huggingface_hub
+langchain-community

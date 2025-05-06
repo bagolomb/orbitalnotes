@@ -4,7 +4,7 @@ DEV = True                    # ← set to False for production build
 import subprocess, atexit, signal, threading, time, requests, uvicorn, webview
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles   import StaticFiles
-from backend.api           import api            # your FastAPI instance
+from backend.api           import api        # your FastAPI instance
 
 # ── helper -----------------------------------------------------------------
 def wait_on(url, timeout=15):
@@ -43,5 +43,5 @@ threading.Thread(
 # ── wait, then show window -------------------------------------------------
 wait_on(ui_url)
 wait_on("http://127.0.0.1:8000/ping")
-webview.create_window("My App", ui_url)
-webview.start()
+webview.create_window("Orbital Notes", ui_url)
+webview.start(debug=True)
