@@ -1,53 +1,7 @@
 @import 'tailwindcss';
 @plugin "daisyui";
 
-.cm-scroller { /* scrollable area */
-  /* e.g. overflow, padding, background */
-}
-.cm-content { /* container for all the text lines */
-}
-.cm-line { /* each line wrapper */
-}
-.cm-lineNumbers { /* line number cells */
-}
-.cm-foldGutter  { @apply bg-base-200/* fold markers */
-}
-.cm-lintGutter { /* lint markers */
-}
-.cm-gutters {
-  @apply flex items-center justify-center bg-base-200;
-}
-.cm-gutterElement {
-  @apply flex items-center justify-center bg-base-300;
-}
-.cm-selectionBackground { /* the selected‐text highlight */ }
-.cm-cursor              { /* the blinking caret */ }
-.cm-activeLine { /* background of the line the cursor sits on */ }
-.cm-activeLineGutter { /* gutter cell for the active line */ }
-.cm-placeholder    { /* when doc is empty */ }
-.cm-foldPlaceholder { /* collapsed‐fold marker */ }
-.cm-widget         { /* arbitrary widgets you can insert */ }
-.cm-dragging       { /* during drag–drop */ }
-.cm-matchingBracket    { /* matched bracket highlight */ }
-.cm-nonmatchingBracket { /* mismatch highlight */ }
-
-.cm-searchMatch            { /* all find() matches */ }
-.cm-searchMatch-selected   { /* current match */ }
-.cm-panels           { /* container for top/bottom panels */ }
-.cm-panel           { /* each panel */ }
-.cm-panels-top      { /* top panels */ }
-.cm-panels-bottom   { /* bottom panels */ }
-
-.cm-tooltip         { /* generic tooltip wrapper */ }
-.cm-tooltip-autocomplete { /* completion popup */ }
-.cm-tooltip .cm-completionIcon,
-.cm-tooltip .cm-completionLabel { /* items in it */ }
-.cm-tooltip-active  { /* highlighted item */ }
-.cm-lintRange        { /* entire range underline */ }
-.cm-lintRange-error  { /* error */ }
-.cm-lintRange-warning{ /* warning */ }
-.cm-lintRange-info   { /* info */ }
-
+.cm-gutter { @apply bg-base-200; }
 
 
   

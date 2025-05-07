@@ -82,11 +82,11 @@ def deleteNoteVectors(note_id: int):
     chroma_collection = getChromaCollection()
     chroma_collection.delete(where={"note_id": note_id})
 
-def addNoteVectors(note_id: int, vectors: list[list[float]]):
+def addNoteVectors(note_id: int, note_chunks: list[str], vectors: list[list[float]]):
     chroma_collection = getChromaCollection()
     chroma_collection.add(
         embeddings=vectors,
-        metadatas=[{"note_id": note_id}],
+        metadatas=[{"note_id": note_id,"chunk_index": chunk_index,"chunk_content": note_chunk} for chunk_index, note_chunk in enumerate(note_chunks)],
         ids=[str(uuid.uuid4()) for _ in range(len(vectors))]
     )
 
@@ -120,7 +120,7 @@ def updateNote(payload: dict = Body(...)):
 
     deleteNoteVectors(note_id)
     note_chunks = ai.generateChunks(content)
-    addNoteVectors(note_id, ai.generateDocumentEmbedding(note_chunks))
+    addNoteVectors(note_id, note_chunks, ai.generateDocumentEmbedding(note_chunks))
     
 
 
