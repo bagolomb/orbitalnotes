@@ -5,10 +5,14 @@
 	import '../app.css';
 	import Welcome from '$lib/components/Welcome.svelte';
 	import Loading from '$lib/components/Loading.svelte';
+	import SideNav from '$lib/components/SideNav.svelte';
 	
 	let { children } = $props();
 	let showLoadingScreen = $state(true);
 	let showWelcomeScreen = $state(false);
+
+	let data
+
 	console.log("Hi")
 	
 	onMount(async () => {
@@ -18,7 +22,7 @@
 		const text = await res.text();
 		console.log('raw text:', text);
 
-		const data = JSON.parse(text);
+		data = JSON.parse(text);
 		showWelcomeScreen = !data.exists;
 		console.log(showWelcomeScreen)
 	} catch (err) {
@@ -35,5 +39,8 @@
 {:else if showWelcomeScreen}
   <Welcome bind:showWelcomeScreen={showWelcomeScreen}/>
 {:else}
-  {@render children()}
+<div class="h-full w-full flex">
+	<SideNav />
+	{@render children()}
+</div>
 {/if}

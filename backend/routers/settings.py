@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
 import json
 from pathlib import Path
 
@@ -42,6 +42,17 @@ def getSettings():
 def saveSettings(settings):
     with open(f"{app_data_dir}/settings.json", "w") as f:
         json.dump(settings, f)
-    
+
+@router.post("/setTheme")
+def setTheme(theme: str = Body(...)):
+    settings = getSettings()
+    settings["theme"] = theme
+    saveSettings(settings)
+    return
+
+@router.get("/getTheme")
+def getTheme():
+    settings = getSettings()
+    return {"theme": settings["theme"]}
         
 

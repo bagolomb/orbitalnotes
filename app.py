@@ -10,7 +10,7 @@ from backend.api           import api        # your FastAPI instance
 def wait_on(url, timeout=15):
     end = time.time() + timeout
     while time.time() < end:
-        try: requests.get(url, timeout=1); return
+        try: requests.get(url, timeout=10); return
         except requests.exceptions.ConnectionError: time.sleep(0.25)
     raise RuntimeError(f"Timed out waiting for {url}")
 
