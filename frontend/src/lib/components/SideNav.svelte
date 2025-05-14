@@ -4,7 +4,7 @@
     let expanded = $state(false);
   </script>
   
-  <div class="flex flex-col h-full p-2 border-r-2 space-y-4 {expanded ? 'w-64' : 'w-16'}">
+  <div class="flex flex-col h-full p-2 border-r-2 space-y-4 shrink-0 {expanded ? 'w-64' : 'w-16'}">
 
     <button onclick={() => expanded = !expanded} class="btn btn-soft w-full flex p-0">
         <div class="flex w-full items-center justify-center p-2">

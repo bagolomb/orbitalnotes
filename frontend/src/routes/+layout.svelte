@@ -6,6 +6,8 @@
 	import Welcome from '$lib/components/Welcome.svelte';
 	import Loading from '$lib/components/Loading.svelte';
 	import SideNav from '$lib/components/SideNav.svelte';
+	import ThemeTracker from '$lib/components/logic_components/ThemeTracker.svelte';
+	import StartupLogic from '$lib/components/logic_components/StartupLogic.svelte';
 	
 	let { children } = $props();
 	let showLoadingScreen = $state(true);
@@ -39,8 +41,10 @@
 {:else if showWelcomeScreen}
   <Welcome bind:showWelcomeScreen={showWelcomeScreen}/>
 {:else}
-<div class="h-full w-full flex">
-	<SideNav />
-	{@render children()}
-</div>
+	<StartupLogic />
+	<ThemeTracker />
+	<div class="h-full w-full flex">
+		<SideNav />
+		{@render children()}
+	</div>
 {/if}

@@ -44,9 +44,9 @@ def saveSettings(settings):
         json.dump(settings, f)
 
 @router.post("/setTheme")
-def setTheme(theme: str = Body(...)):
+def setTheme(json: dict = Body(...)):
     settings = getSettings()
-    settings["theme"] = theme
+    settings["theme"] = json["theme"]
     saveSettings(settings)
     return
 
