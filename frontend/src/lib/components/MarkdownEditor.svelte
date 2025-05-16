@@ -4,42 +4,12 @@
     import {basicSetup} from "codemirror"
     import {EditorState} from "@codemirror/state"
     import {EditorView} from "@codemirror/view"
-    import { HighlightStyle, syntaxHighlighting } from '@codemirror/language';
     import {markdown} from "@codemirror/lang-markdown"
-    import { markdownLanguage } from "@codemirror/lang-markdown"
-    import { tags } from '@lezer/highlight'
 
     import { marked } from "marked"
 
-    const markdownHighlightStyle = HighlightStyle.define([
-        // ATX headings
-        { tag: tags.heading1,       class: "cm-heading1" },
-        { tag: tags.heading2,       class: "cm-heading2" },
-        { tag: tags.heading3,       class: "cm-heading3" },
-        { tag: tags.heading4,       class: "cm-heading4" },
-        { tag: tags.heading5,       class: "cm-heading5" },
-        { tag: tags.heading6,       class: "cm-heading6" },
-
-        // inline styles
-        { tag: tags.strong,         class: "cm-strong" },
-        { tag: tags.emphasis,       class: "cm-emphasis" },
-        { tag: tags.strikethrough,  class: "cm-strikethrough" },
-
-        // links
-        { tag: tags.link,           class: "cm-link" },
-        { tag: tags.url,            class: "cm-url" },
-
-        // lists & quotes
-        { tag: tags.list,           class: "cm-list" },
-        { tag: tags.quote,          class: "cm-quote" },
-
-        // inline/fenced code _content_
-        { tag: tags.literal,        class: "cm-literal" },
-    ])
-
-
-
     let { note_id=$bindable() } = $props();
+    let note_title = $state('');
 
     let eView
     let eState
@@ -47,6 +17,18 @@
     let listener
 
     let renderedHTML= $state('');
+
+    async function saveNote(){
+        let res = await fetch('http://127.0.0.1:8000/db/updateNote', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: note_id, title: note_title, content: eState.doc.toString() })
+        })
+        let data = await res.json()
+        console.log(data)
+    }
     
     onMount(() => {
 
@@ -62,7 +44,6 @@
                 basicSetup,
                 markdown(),
                 listener,
-                syntaxHighlighting(markdownHighlightStyle),
             ]
         })
         eView = new EditorView({
@@ -74,10 +55,16 @@
 
 </script>
 
-<div class="flex flex-row h-full w-full">
-    <div bind:this={editorElement} class="h-full w-1/2 ">
+<div class="flex flex-col h-full w-full">
+    <div class="flex items-center justify-center w-full p-2 h-16">
+        <input type="text" class="input w-full" bind:value={note_title} placeholder="Note Title"/>
+        <button class="btn btn-soft" onclick={saveNote}>Save</button>
     </div>
-    <div class="h-full w-1/2 prose font-sans text-base">
+    <div class="flex flex-row h-full w-full p-2">
+        <div bind:this={editorElement} class="h-full w-1/2">
+        </div>
+        <div class="h-full w-1/2 prose font-sans text-base">
         {@html renderedHTML}
+        </div>
     </div>
 </div>

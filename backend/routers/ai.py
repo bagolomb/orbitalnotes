@@ -56,7 +56,8 @@ def generateChunks(text: str):
     return getTextSplitter().split_text(text)
 
 def generateDocumentEmbedding(texts: list[str]):
-    embeddings = getEmbeddingModel().embed_documents(texts)
+    embeeding_model = getEmbeddingModel()
+    embeddings = [embeeding_model.embed_query(chunk) for chunk in texts]
     return embeddings
 
 def generateQueryEmbedding(text: str):
@@ -86,10 +87,11 @@ def initModels():
     return
 
 @router.post("/chat")
-def chat(prompt: dict = Body(...)):
+def chat(raw_json: dict = Body(...)):
+    prompt=raw_json["prompt"]
     llm = getGenerationModel()
-    response = llm.invoke(prompt["prompt"])
-    return {"content": response.content}
+    response = llm.invoke(prompt)
+    return response.content
 
 @router.post("/newChat")
 def newChat():

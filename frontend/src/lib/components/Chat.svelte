@@ -1,5 +1,4 @@
 <script>
-    import { marked } from 'marked';
     let prompt_input = $state("");
     let messages = $state([]);
     let loading = $state(false);
@@ -15,6 +14,9 @@
         messages.push({
             role: "ai",
         content: "loading..."})
+
+        console.log(JSON.stringify({ prompt: prompt_temp }))
+        
         let response = await fetch('http://127.0.0.1:8000/ai/chat', {
             method: 'POST',
             headers: {
@@ -24,7 +26,7 @@
         });
         console.log(response)
 
-        let {content} = await response.json();
+        let content = await response.json();
         console.log(content)
         messages.pop()
         messages.push({
@@ -37,7 +39,7 @@
 </script>
 
 <div class="flex flex-col h-full w-full p-2">
-    <div class="w-full h-full border-2 rounded-2xl p-2">
+    <div class="w-full h-full border-2 rounded-2xl p-2 overflow-auto scroll-p-2">
         {#each messages as message}
             {#if message.role == "user"}
                 <div class="chat chat-end">
@@ -47,8 +49,8 @@
                 </div>
             {:else}
                 <div class="chat chat-start">
-                    <div class="chat-bubble">
-                        {@html marked.parse(message.content)}
+                    <div class="chat-bubble whitespace-pre-wrap">
+                        {message.content}
                     </div>
                 </div>
             {/if}

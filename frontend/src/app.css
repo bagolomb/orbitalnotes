@@ -1,38 +1,6 @@
 @import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
+
 .cm-gutter { @apply bg-base-200; }
-
-
-  
-.prose h1 { @apply block text-4xl font-extrabold leading-tight mt-6 mb-6; }
-.prose h2 { @apply block text-3xl font-bold      leading-snug  pt-5 pb-5; }
-.prose h3 { @apply block text-2xl font-semibold  leading-snug  pt-4 pb-4; }
-.prose h4 { @apply block text-xl  font-semibold  leading-snug  pt-3 pb-3; }
-.prose h5 { @apply block text-lg  font-semibold  leading-snug  pt-2 pb-2; }
-.prose h6 { @apply block text-base font-semibold  leading-snug  pt-1 pb-1; }
-.prose strong        { @apply font-semibold; }
-.prose em            { @apply italic; }
-.prose del           { @apply line-through; }
-.prose a             { @apply text-blue-600 underline; }
-.prose ul            { @apply list-disc pl-6 space-y-2; }
-.prose ol            { @apply list-decimal pl-6 space-y-2; }
-.prose blockquote    { @apply border-l-4 border-gray-300 pl-4 italic my-4; }
-.prose code          { @apply bg-gray-100 px-1 py-0.5 rounded-sm font-mono text-sm; }
-.prose pre           { @apply bg-gray-100 p-4 rounded overflow-x-auto font-mono text-sm; }
-
-
-
-.cm-heading1 { @apply block text-4xl font-extrabold leading-tight pt-6 pb-6; }
-.cm-heading2 { @apply block text-3xl font-bold      leading-snug  pt-5 pb-5; }
-.cm-heading3 { @apply block text-2xl font-semibold  leading-snug  pt-4 pb-4; }
-.cm-heading4 { @apply block text-xl  font-semibold  leading-snug  pt-3 pb-3; }
-.cm-heading5 { @apply block text-lg  font-semibold  leading-snug  pt-2 pb-2; }
-.cm-heading6 { @apply block text-base font-semibold  leading-snug  pt-1 pb-1; }
-.cm-strong        { @apply font-semibold; }
-.cm-emphasis      { @apply italic; }
-.cm-strikethrough { @apply line-through; }
-.cm-link,.cm-url  { @apply text-blue-600 underline; }
-.cm-list          { @apply list-disc pl-6 space-y-2; }
-.cm-quote         { @apply border-l-4 border-gray-300 pl-4 italic my-4; }
-.cm-literal       { @apply bg-gray-100 px-1 py-0.5 rounded-sm font-mono text-sm; }

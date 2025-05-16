@@ -40,7 +40,7 @@ def initDBs():
     return
 
 def getChromaClient():
-    chroma_client = chromadb.Client()
+    chroma_client = chromadb.PersistentClient(path=getSettings()["app_data_dir"]+"/chroma")
     return chroma_client
 
 def getChromaCollection():
@@ -82,7 +82,9 @@ def deleteNoteVectors(note_id: int):
     chroma_collection = getChromaCollection()
     chroma_collection.delete(where={"note_id": note_id})
 
-def addNoteVectors(note_id: int, note_chunks: list[str], vectors: list[list[float]]):
+def addNoteVectors(note_id: int, note_chunks: list[str], vectors):
+    print(vectors)
+    print(len(vectors))
     chroma_collection = getChromaCollection()
     chroma_collection.add(
         embeddings=vectors,
@@ -102,7 +104,8 @@ def getNote(note_id: int):
 
 @router.post("/updateNote")
 def updateNote(payload: dict = Body(...)):
-    note_id = payload.get("note_id")
+    print("Hiiiii")
+    id = payload.get("id")
     title   = payload.get("title")
     content = payload.get("content")
     
@@ -113,14 +116,30 @@ def updateNote(payload: dict = Body(...)):
         SET title = ?, content = ?, updated_at = ?
         WHERE note_id = ?
         """,
-        (title, content, datetime.datetime.now(datetime.timezone.utc).isoformat(), note_id)
+        (title, content, datetime.datetime.now(datetime.timezone.utc).isoformat(), id)
     )
 
     sql_db.commit()
 
-    deleteNoteVectors(note_id)
+    deleteNoteVectors(id)
     note_chunks = ai.generateChunks(content)
-    addNoteVectors(note_id, note_chunks, ai.generateDocumentEmbedding(note_chunks))
+    print(id)
+    print(note_chunks)
+    addNoteVectors(id, note_chunks, ai.generateDocumentEmbedding(note_chunks))
+
+@router.post("/search")
+def search(raw_json: dict = Body(...)):
+    query = raw_json["query"]
+    embedded_query = ai.generateQueryEmbedding(query)
+    chroma_collection = getChromaCollection()
+    results = chroma_collection.query(
+        query_embeddings=embedded_query,
+        n_results=5
+    )
+    print(type(results))
+    print(results)
+    return results.ids
+
     
 
 
