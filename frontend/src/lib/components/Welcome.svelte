@@ -8,9 +8,9 @@
         showInitializingScreen = true;
 
         await Promise.all([
-            fetch('http://127.0.0.1:8000/settings/init', { method: 'POST' }),
-            fetch('http://127.0.0.1:8000/db/init',       { method: 'POST' }),
-            fetch('http://127.0.0.1:8000/ai/downloadModels'),
+            fetch('http://127.0.0.1:8000/api/settings/init', { method: 'POST' }),
+            fetch('http://127.0.0.1:8000/api/db/init',       { method: 'POST' }),
+            fetch('http://127.0.0.1:8000/api/ai/downloadModels'),
         ]);
 
         showWelcomeScreen      = false;

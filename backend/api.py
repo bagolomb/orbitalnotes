@@ -17,9 +17,9 @@ api.add_middleware(
     allow_credentials=True,
 )
 
-api.include_router(db.router)
-api.include_router(settings.router)
-api.include_router(ai.router)
+api.include_router(db.router, prefix="/api")
+api.include_router(settings.router, prefix="/api")
+api.include_router(ai.router, prefix="/api")
 
 # ── simple health check -------------------------------------------------
 @api.get("/ping")

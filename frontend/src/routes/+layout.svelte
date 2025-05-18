@@ -1,6 +1,4 @@
 <script>
-	export const ssr = false;
-	export const prerender = true;
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import Welcome from '$lib/components/Welcome.svelte';
@@ -19,7 +17,7 @@
 	
 	onMount(async () => {
 	try {
-		const res = await fetch('http://127.0.0.1:8000/settings/checkIfSettingsExist');
+		const res = await fetch('http://127.0.0.1:8000/api/settings/checkIfSettingsExist');
 		console.log('status:', res.status);
 		const text = await res.text();
 		console.log('raw text:', text);

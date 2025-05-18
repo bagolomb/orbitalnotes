@@ -5,7 +5,7 @@
 
     // Replace URL with your actual endpoint
     async function saveTheme(newTheme) {
-    await fetch('http://127.0.0.1:8000/settings/setTheme', {
+    await fetch('http://127.0.0.1:8000/api/settings/setTheme', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( { theme: newTheme })
