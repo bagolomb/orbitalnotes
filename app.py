@@ -4,7 +4,7 @@ DEV = True                    # ← set to False for production build
 import subprocess, atexit, signal, threading, time, requests, uvicorn, webview
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles   import StaticFiles
-from backend.api           import api        # your FastAPI instance
+from backend.app.api           import api        # your FastAPI instance
 
 # ── helper -----------------------------------------------------------------
 def wait_on(url, timeout=15):
