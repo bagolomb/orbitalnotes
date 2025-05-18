@@ -19,7 +19,7 @@
     let renderedHTML= $state('');
 
     async function saveNote(){
-        let res = await fetch('http://127.0.0.1:8000/db/updateNote', {
+        let res = await fetch('http://127.0.0.1:8000/api/db/updateNote', {
             method: 'POST', 
             headers: {
                 'Content-Type': 'application/json'

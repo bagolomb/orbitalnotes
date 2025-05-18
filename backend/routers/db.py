@@ -92,15 +92,33 @@ def addNoteVectors(note_id: int, note_chunks: list[str], vectors):
         ids=[str(uuid.uuid4()) for _ in range(len(vectors))]
     )
 
-def getNote(note_id: int):
+@router.post("/getXMostRecentlyCreatedNotes")
+def getXMostRecentlyCreatedNotes(x: int, offset = 0):
     sql_db = getSQLDb()
     cursor = sql_db.execute(
         """
-        SELECT * FROM notes WHERE note_id = ?
+        SELECT * FROM notes ORDER BY created_at DESC LIMIT ? OFFSET ?
         """,
-        (note_id)
+        (x, offset)
     )
-    return cursor.fetchone()
+    cols = [col[0] for col in cursor.description]
+    rows = cursor.fetchall()
+    return [dict(zip(cols, row)) for row in rows]
+
+@router.post("/getXMostRecentlyUpdatedNotes")
+def getXMostRecentlyUpdatedNotes(payload: dict = Body(...)):
+    x = payload.get("x")
+    offset = payload.get("offset")
+    sql_db = getSQLDb()
+    cursor = sql_db.execute(
+        """
+        SELECT * FROM notes ORDER BY updated_at DESC LIMIT ? OFFSET ?
+        """,
+        (x, offset)
+    )
+    cols = [col[0] for col in cursor.description]
+    rows = cursor.fetchall()
+    return [dict(zip(cols, row)) for row in rows]
 
 @router.post("/updateNote")
 def updateNote(payload: dict = Body(...)):

@@ -19,16 +19,6 @@ vite_proc = None
 api_proc = None
 
 # 1) on Ctrl-C, close the WebView AND kill both servers
-def _on_sigint(sig, frame):
-    webview.destroy_window()
-    if vite_proc:
-        os.killpg(os.getpgid(vite_proc.pid), signal.SIGINT)
-    if api_proc:
-        os.killpg(os.getpgid(api_proc.pid), signal.SIGINT)
-    sys.exit(0)
-
-signal.signal(signal.SIGINT, _on_sigint)
-
 def run_api_prod():
     from backend.api import api
     from fastapi.staticfiles import StaticFiles
@@ -71,23 +61,8 @@ def start_servers():
                 time.sleep(0.1)
         return None, None, api_url
 
-def cleanup(proc):
-    if not proc:
-        return
-    try:
-        pg = os.getpgid(proc.pid)
-        os.killpg(pg, signal.SIGINT)
-    except Exception:
-        pass
-    proc.wait()
 
 if __name__ == "__main__":
     vite_proc, api_proc, frontend_url = start_servers()
     webview.create_window("Orbital Notes", frontend_url, width=1024, height=768, resizable=True)
     webview.start(debug=True)
-
-    # if user closes the window normally (not via Ctrl-C)
-    cleanup(vite_proc)
-    cleanup(api_proc)
-    print("✅ Cleanup complete. Exiting.")
-    sys.exit(0)

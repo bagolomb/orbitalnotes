@@ -17,7 +17,7 @@
 
         console.log(JSON.stringify({ prompt: prompt_temp }))
         
-        let response = await fetch('http://127.0.0.1:8000/ai/chat', {
+        let response = await fetch('http://127.0.0.1:8000/api/ai/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
