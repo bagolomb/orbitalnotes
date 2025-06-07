@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	console.log("ho3")
 	import '../app.css';
 	import Welcome from '$lib/components/Welcome.svelte';
