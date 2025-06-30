@@ -1,0 +1,34 @@
+.cm-editor {
+    @apply border-none
+}
+
+.cm-editor.cm-focused {
+    @apply outline-none
+}
+
+.cm-activeLine {
+    @apply !bg-secondary dark:bg-secondary
+}
+
+.cm-gutters {
+    @apply dark:bg-background bg-background
+}
+
+.cm-activeLineGutter {
+    @apply !bg-border dark:bg-border
+}
+
+.cm-editor .cm-cursor {
+    @apply border-black dark:border-white
+}
+
+.cm-tooltip {
+    @apply bg-secondary dark:bg-secondary text-black dark:text-white shadow-none
+}
+.cm-tooltip.cm-tooltip-autocomplete {
+    @apply border-none
+}
+
+.cm-tooltip.cm-tooltip-autocomplete .cm-completionIcon {
+    @apply hidden
+}
