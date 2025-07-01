@@ -110,8 +110,8 @@
 </script>
 
 <div class="flex flex-col items-center space-y-2 overflow-x-hidden">
-    <div class='w-full h-full flex justify-center items-center'>
-        <Card.Root>
+    <div class='w-full h-full flex justify-center items-center overflow-x-hidden'>
+        <Card.Root class="overflow-x-hidden" >
             <Card.Header class="flex flex-row items-center justify-between">
                 <h2 class="text-lg font-semibold">Model Configuration</h2>
                 <Button.Root 
@@ -224,3 +224,12 @@
         </Card.Root>
     </div>
 </div>
+
+
+<style>
+
+    div{
+        overflow-x: hidden;
+    }
+
+</style>
