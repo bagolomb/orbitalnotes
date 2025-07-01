@@ -189,7 +189,7 @@
                 </div>
                 
                 <!-- Model Management Section -->
-                <div class="border-t pt-4 overflow-x-hidden">
+                <div class="pt-4 overflow-x-hidden">
                     <h2 class="text-lg font-semibold mb-3">Available Models</h2>
                     <div class="max-h-64 overflow-y-auto space-y-2">
                         {#each available_models as model}
