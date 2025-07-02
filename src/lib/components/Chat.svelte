@@ -16,7 +16,7 @@
     {
       role: "system",
       content:
-        "You are a helpful retrieval augmented generation assistant who outputs in markdown format. You may use the notes for extra knowledge but do not let the user think they directly shared them and answer in 250 words",
+        "You are a helpful retrieval augmented generation assistant and always answer in markdown format. You may use the notes for extra knowledge but do not let the user think they directly shared them and answer in 150 words",
     },
   ]);
 
@@ -51,50 +51,93 @@
       thought: "",
       content: "",
       renderedHtml: "",
-      isStreaming: true
+      isStreaming: true,
     });
 
     visible_chat_history.push(assistantMessage);
     chat_history.push(assistantMessage);
 
-    let is_thinking = false;
-    let buffer = "";
+    // Separate buffers for better control
+    let thoughtBuffer = "";
+    let contentBuffer = "";
+    let fullBuffer = "";
+    let isInThinkBlock = false;
+
     const messages_to_send = [...system_message, ...chat_history];
-    const response_stream = await chat(messages_to_send, true);
 
-    for await (const chunk of response_stream) {
-      let chunk_text = chunk.message.content;
-      buffer += chunk_text;
+    try {
+      const response_stream = await chat(messages_to_send, true);
 
-      if (is_thinking) {
-        assistantMessage.thought += chunk_text;
-      } else {
-        assistantMessage.content += chunk_text;
+      for await (const chunk of response_stream) {
+        const chunk_text = chunk.message.content;
+        fullBuffer += chunk_text;
+
+        // Check for think block start
+        if (!isInThinkBlock && fullBuffer.includes("<think>")) {
+          const thinkStartIndex = fullBuffer.indexOf("<think>");
+          // Content before <think> goes to content
+          contentBuffer += fullBuffer.substring(0, thinkStartIndex);
+          fullBuffer = fullBuffer.substring(thinkStartIndex + "<think>".length);
+          isInThinkBlock = true;
+        }
+
+        // Check for think block end
+        if (isInThinkBlock && fullBuffer.includes("</think>")) {
+          const thinkEndIndex = fullBuffer.indexOf("</think>");
+          // Content inside think block
+          thoughtBuffer += fullBuffer.substring(0, thinkEndIndex);
+          // Content after </think>
+          fullBuffer = fullBuffer.substring(thinkEndIndex + "</think>".length);
+          contentBuffer += fullBuffer;
+          fullBuffer = ""; // Clear buffer since we processed everything
+          isInThinkBlock = false;
+        } else if (isInThinkBlock) {
+          // We're inside a think block, add to thought
+          thoughtBuffer += chunk_text;
+        } else {
+          // We're outside think blocks, add to content
+          contentBuffer += chunk_text;
+        }
+
+        // Update the message object
+        assistantMessage.thought = thoughtBuffer;
+        assistantMessage.content = contentBuffer;
+
+        // For streaming display, show raw content
+        // Don't render HTML until streaming is complete
       }
 
-      if (buffer.includes("<think>")) {
-        is_thinking = true;
-        const startTagIndex = buffer.indexOf("<think>");
-        assistantMessage.content = "";
-        buffer = buffer.slice(startTagIndex + "<think>".length);
-      }
+      assistantMessage.isStreaming = false;
 
-      if (buffer.includes("</think>")) {
-        is_thinking = false;
-        const endTagIndex = buffer.indexOf("</think>");
-        buffer = buffer.slice(0, endTagIndex);
-        assistantMessage.thought = buffer;
+      if (assistantMessage.content.trim()) {
+        try {
+          let sanitized = assistantMessage.content.trim();
+
+          // Remove leading/trailing code fences (``` or ```markdown)
+          sanitized = sanitized.replace(/```[a-zA-Z]*\n?([\s\S]*?)```/g, "$1");
+          console.log(sanitized)
+          assistantMessage.renderedHtml = await marked.parse(sanitized);
+        } catch (markdownError) {
+          console.error("Markdown parsing error:", markdownError);
+          assistantMessage.renderedHtml = assistantMessage.content.replace(
+            /\n/g,
+            "<br>"
+          );
+        }
       }
+    } catch (error) {
+      console.error("Streaming error:", error);
+      assistantMessage.isStreaming = false;
+      assistantMessage.content =
+        "Sorry, there was an error processing your request.";
+      assistantMessage.renderedHtml = assistantMessage.content;
     }
-
-    assistantMessage.renderedHtml = marked.parse(assistantMessage.content);
-    assistantMessage.isStreaming = false;
   }
 </script>
 
 <div class="flex flex-col w-full h-full">
   <div class="flex flex-col flex-grow w-full h-full space-y-2 overflow-hidden">
-    <ScrollArea class="flex flex-col flex-grow h-full p-4">
+    <ScrollArea class="flex flex-col flex-grow h-full p-4 min-h-0">
       <div class="flex flex-col space-y-2 w-full">
         {#each visible_chat_history as message}
           {#if message.role === "user"}
@@ -113,7 +156,9 @@
             <div class="flex justify-start w-full">
               <div class="max-w-[70%] min-w-0">
                 <Card.Root class="!py-0 !gap-0 text-wrap">
-                  <Card.Content class="p-3 break-words overflow-hidden text-wrap">
+                  <Card.Content
+                    class="p-3 break-words overflow-hidden text-wrap"
+                  >
                     {#if message.thought}
                       <Collapsible.Root class="text-muted-foreground text-sm">
                         <Collapsible.Trigger>
@@ -123,7 +168,9 @@
                           </div>
                         </Collapsible.Trigger>
                         <Collapsible.Content class="break-words text-wrap">
-                          <div class="whitespace-pre-wrap break-words text-wrap">
+                          <div
+                            class="whitespace-pre-wrap break-words text-wrap"
+                          >
                             {message.thought}
                           </div>
                         </Collapsible.Content>
@@ -132,12 +179,18 @@
 
                     {#if message.content}
                       {#if message.isStreaming}
+                        <!-- Show raw content while streaming -->
                         <div class="whitespace-pre-wrap break-words">
                           {message.content}
                         </div>
                       {:else}
+                        <!-- Show rendered HTML after streaming is complete -->
                         <div
-                          class="prose prose-sm prose-invert mt-2 max-w-none break-words overflow-hidden [&_pre]:overflow-x-auto [&_pre]:max-w-full [&_code]:break-words [&_h1]:break-words [&_h2]:break-words [&_h3]:break-words [&_p]:break-words text-wrap"
+                          class="prose prose-sm prose-invert mt-2 max-w-full sm:max-w-2xl break-words
+                                overflow-visible h-auto min-h-0
+                                [&_pre]:overflow-x-auto [&_pre]:max-w-full
+                                [&_code]:break-words [&_h1]:break-words [&_h2]:break-words
+                                [&_h3]:break-words [&_p]:break-words text-wrap whitespace-pre-wrap"
                         >
                           {@html message.renderedHtml}
                         </div>
@@ -153,11 +206,11 @@
     </ScrollArea>
   </div>
 
-  <Card.Root class="y-0" >
+  <Card.Root class="y-0">
     <Card.Content class="flex justify-center items-center gap-2 w-[100%]">
       <Textarea
         bind:value={prompt_input}
-        class="resize-none rounded-[50px] max-w-[70vw] min-h-[10vh] field-sizing-content max-h-[20vh] scroll-auto no-scroll "
+        class="resize-none rounded-[50px] max-w-[70vw] min-h-[10vh] field-sizing-content max-h-[20vh] scroll-auto no-scroll p-6"
         onkeydown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -165,9 +218,7 @@
           }
         }}
       />
-      <Button class="rounded-[50px] " onclick={submit}>Send</Button>
+      <Button class="rounded-[50px]" onclick={submit}>Send</Button>
     </Card.Content>
   </Card.Root>
 </div>
-
-
