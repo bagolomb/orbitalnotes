@@ -165,23 +165,9 @@
           }
         }}
       />
-      <Button class="rounded-[50px " onclick={submit}>Send</Button>
+      <Button class="rounded-[50px] " onclick={submit}>Send</Button>
     </Card.Content>
   </Card.Root>
 </div>
 
-<style>
-  .language-markdown {
-    max-width: none !important;
-    overflow-x: auto;
-    white-space: pre;
-    text-wrap: pretty;
-  }
 
-  body{
-    overflow-x: hidden;
-  }
-  textarea{
-    overflow-y: hidden;
-  }
-</style>
