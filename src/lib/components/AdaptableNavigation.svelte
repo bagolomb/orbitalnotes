@@ -89,7 +89,7 @@
                 <Button onclick={() => goto("/svelteflow")} class="w-full p-2" variant="outline">
             <div class="flex flex-row items-center justify-center w-full">
                 {#if is_expanded}
-                     svelteflow
+                     brady
                     <h1 class="text-center w-full">Svelteflow</h1>
                 {:else}
                     brady
@@ -97,6 +97,20 @@
                 {/if}
             </div>
         </Button>
+        
+          <Button onclick={() => goto("/whiteboard")} class="w-full p-2" variant="outline">
+            <div class="flex flex-row items-center justify-center w-full">
+                {#if is_expanded}
+                     lakshay
+                    <h1 class="text-center w-full">Svelteflow</h1>
+                {:else}
+                    lakshay
+                    <span class="sr-only">Svelteflow</span>
+                {/if}
+            </div>
+        </Button>
+        
+        
         <Button onclick={() => goto("/visualize")} class="w-full p-2" variant="outline">
             <div class="flex flex-row items-center justify-center w-full">
                 {#if is_expanded}
