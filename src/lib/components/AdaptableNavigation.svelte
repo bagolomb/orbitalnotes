@@ -86,6 +86,17 @@
                 {/if}
             </div>
         </Button>
+                <Button onclick={() => goto("/svelteflow")} class="w-full p-2" variant="outline">
+            <div class="flex flex-row items-center justify-center w-full">
+                {#if is_expanded}
+                     svelteflow
+                    <h1 class="text-center w-full">Svelteflow</h1>
+                {:else}
+                    brady
+                    <span class="sr-only">Svelteflow</span>
+                {/if}
+            </div>
+        </Button>
         <Button onclick={() => goto("/visualize")} class="w-full p-2" variant="outline">
             <div class="flex flex-row items-center justify-center w-full">
                 {#if is_expanded}
